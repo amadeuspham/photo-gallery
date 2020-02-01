@@ -4,8 +4,8 @@ import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-boots
 export default function GalleryHeader() {
 	return (
 		<Navbar bg="light" expand="lg" className="py-4 bg-white">
-		  <Navbar.Brand href="/photos">
-		  	<h1 class="display-4">Photos</h1>
+		  <Navbar.Brand href="/">
+		  	<h1 className="display-4">Photos</h1>
 		  </Navbar.Brand> 
 		</Navbar>
 	);

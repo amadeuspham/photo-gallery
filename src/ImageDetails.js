@@ -23,7 +23,8 @@ export default class ImageDetails extends React.Component{
 		const {data} = this.props;
 		const elementPos = data.findIndex(photo => photo.id == id);
 		const fromGallery = data[elementPos];
-
+		console.log(this.props)
+		
 		if (fromGallery) {
 			this.setState({
 				photo: fromGallery,
@@ -46,7 +47,7 @@ export default class ImageDetails extends React.Component{
 		return (
 			<Col className="col-auto mb-4">
 				<IconContext.Provider value={{ color: "grey", size:"3em" }}>
-				  <Link to='/photos'>
+				  <Link to='/'>
 				    <IoIosArrowBack />
 				  </Link>
 				</IconContext.Provider>
