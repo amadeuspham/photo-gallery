@@ -9,7 +9,7 @@ import Loading from './Loading.js';
 
 export default function ImageGrid(props) {
   const location = useLocation();
-  const {data, loading} = props;
+  const {data, loading, light} = props;
 
   if (!loading) {
     return (
@@ -18,7 +18,9 @@ export default function ImageGrid(props) {
           <ImageCard 
             key={photo.id}
             photo={photo} 
-            location={location}/>
+            location={location}
+            light={light}
+          />
         ))}
       </Row>
     );

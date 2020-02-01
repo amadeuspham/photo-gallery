@@ -4,7 +4,7 @@ import LazyLoad from 'react-lazyload';
 import { Link } from "react-router-dom";
 
 export default function ImageCard(props){
-	const {photo} = props;
+	const {photo, light} = props;
 	const [hovered, setHovered] = useState(false);
 
 	return (
@@ -26,7 +26,7 @@ export default function ImageCard(props){
 		        	transform: `${hovered ? 'scale(1.5,1.5)' : 'scale(1,1)'}`,
 		        	transition: 'transform 0.4s ease-in-out',
 		        }}
-		        className="shadow-lg p-3 mb-5 bg-white rounded"
+		        className={light ? "shadow-lg p-3 mb-5 bg-white rounded" : "shadow-lg p-3 mb-5 bg-secondary rounded"}
 	        	rounded
 	        />
         </Link>

@@ -10,6 +10,7 @@ import {
 import ImageGrid from './ImageGrid.js';
 import ImageDetails from './ImageDetails.js';
 import NotFound from './NotFound.js';
+import './PaginationDark.css';
 
 export default class Gallery extends React.Component {
   state = {
@@ -47,10 +48,11 @@ export default class Gallery extends React.Component {
 
   ImageSwitch = () => {
     const {data} = this.state;
+    const {light} = this.props;
 
     return (
       <Switch>
-        <Route path="/:id" render={(props) => <ImageDetails data={data} {...props} /> }/>
+        <Route path="/:id" render={(props) => <ImageDetails data={data} light={light} {...props} /> }/>
         <Route path="/" children={<this.ImageBrowse/>} />
         <Route path="*" children={<NotFound/>}/>
       </Switch>
@@ -59,24 +61,25 @@ export default class Gallery extends React.Component {
 
   ImageBrowse = () => {
     const {data, loading, currentPage, error} = this.state;
+    const {light} = this.props;
 
     if (error) {
       return (
-        <p>An error occured. Please try again later</p>
+        <p style={{minHeight: '100vh'}}>An error occured. Please try again later</p>
       );
     } else {
       return (
-        <Row style={{justifyContent: 'center'}}>
-          <ImageGrid loading={loading} data={data}/>
+        <Row style={{justifyContent: 'center', minHeight: '100vh'}}>
+          <ImageGrid loading={loading} data={data} light={light}/>
           <Pagination
             activePage={currentPage}
             itemsCountPerPage={18}
             totalItemsCount={5000}
             pageRangeDisplayed={5}
             onChange={this.handlePageChange}
-            activeClass="page-item active"
-            itemClass="page-item"
-            linkClass="page-link"
+            activeClass={light ? "page-item active" : "page-item-dark active"}
+            itemClass={light ? "page-item" : "page-item-dark"}
+            linkClass={light ? "page-link" : "page-link-dark"}
           />
         </Row>
       );

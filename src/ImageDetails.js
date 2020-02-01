@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 
 import Loading from './Loading.js';
+import './ImageInfo.css';
 
 export default class ImageDetails extends React.Component{
 	state = {
@@ -23,8 +24,7 @@ export default class ImageDetails extends React.Component{
 		const {data} = this.props;
 		const elementPos = data.findIndex(photo => photo.id == id);
 		const fromGallery = data[elementPos];
-		console.log(this.props)
-		
+
 		if (fromGallery) {
 			this.setState({
 				photo: fromGallery,
@@ -57,57 +57,58 @@ export default class ImageDetails extends React.Component{
 
 	render() {
 		const {loading, photo, backToGallery} = this.state;
+		const {light} = this.props;
 
 		if (loading) {
 			return <Loading/>;
 		} else {
 			return (
-				<Container className="align-items-center" fluid>
+				<Container className="align-items-center" style={{minHeight: '100vh'}} fluid>
 					<Row>
 						{backToGallery && <this.BackButton/>}
 						<Col sm={7}>
 			    		<Image src={photo.url} className="mb-4" fluid/>
 			    	</Col>
-			    	<Col className="shadow-lg p-3 bg-white my-auto" rounded>
-			    		<p>Image info</p>
+			    	<Col className={light ? "shadow-lg p-3 bg-white my-auto" : "shadow-lg p-3 bg-secondary my-auto"} rounded>
+			    		<p className={light ? "category" : "category-dark"}>Image info</p>
 			    		<Row>
 			    			<Col className="text-left">
-			    				<p className="font-weight-bold"> Album ID </p>
+			    				<p className={light ? "category" : "category-dark"}> Album ID </p>
 			    			</Col>
 			    			<Col className="text-right">
-			    				<p> {photo.albumId} </p>
+			    				<p className={light ? null : "details-dark"}> {photo.albumId} </p>
 			    			</Col>
 			    		</Row>
 			    		<Row>
 			    			<Col className="text-left">
-			    				<p className="font-weight-bold"> Photo ID </p>
+			    				<p className={light ? "category" : "category-dark"}> Photo ID </p>
 			    			</Col>
 			    			<Col className="text-right">
-			    				<p> {photo.id} </p>
+			    				<p className={light ? null : "details-dark"}> {photo.id} </p>
 			    			</Col>
 			    		</Row>
 			    		<Row>
 			    			<Col className="text-left">
-			    				<p className="font-weight-bold"> Title </p>
+			    				<p className={light ? "category" : "category-dark"}> Title </p>
 			    			</Col>
 			    			<Col className="text-right">
-			    				<p> {photo.title} </p>
+			    				<p className={light ? null : "details-dark"}> {photo.title} </p>
 			    			</Col>
 			    		</Row>
 			    		<Row>
 			    			<Col className="text-left">
-			    				<p className="font-weight-bold"> Photo URL </p>
+			    				<p className={light ? "category" : "category-dark"}> Photo URL </p>
 			    			</Col>
 			    			<Col className="text-right">
-			    				<a href={photo.url}>{photo.url}</a>
+			    				<a href={photo.url} className={light ? null : "url-dark"}>{photo.url}</a>
 			    			</Col>
 			    		</Row>
 			    		<Row>
 			    			<Col className="text-left">
-			    				<p className="font-weight-bold"> Thumbnail URL </p>
+			    				<p className={light ? "category" : "category-dark"}> Thumbnail URL </p>
 			    			</Col>
 			    			<Col className="text-right">
-			    				<a href={photo.thumbnailUrl}>{photo.thumbnailUrl}</a>
+			    				<a href={photo.thumbnailUrl} className={light ? null : "url-dark"}>{photo.thumbnailUrl}</a>
 			    			</Col>
 			    		</Row>
 			    	</Col>

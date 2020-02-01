@@ -1,12 +1,43 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { IconContext } from "react-icons";
+import { IoIosMoon, IoIosSunny } from "react-icons/io";
 
-export default function GalleryHeader() {
+function LightIcon() {
+  return (
+      <IconContext.Provider value={{ color: "#f8f9fa", size:"2em" }}>
+        <IoIosMoon />
+      </IconContext.Provider>
+  );
+}
+
+function DarkIcon() {
+  return (
+      <IconContext.Provider value={{ color: "#343a40", size:"2em" }}>
+        <IoIosSunny />
+      </IconContext.Provider>
+  );
+}
+
+export default function GalleryHeader(props) {
+  const {light, setLight} = props;
+
 	return (
-		<Navbar bg="light" expand="lg" className="py-4 bg-white">
+		<Navbar expand="lg" className={light ? "py-4 bg-white" : "py-4 bg-dark"}>
 		  <Navbar.Brand href="/">
-		  	<h1 className="display-4">Photos</h1>
+		  	<h1 
+          className={light ? "display-4 font-weight-bold text-dark" : "display-4 font-weight-bold text-light"}
+        >
+          Photos
+        </h1>
 		  </Navbar.Brand> 
+      <Button 
+        variant={light ? "dark" : "light"}
+        className="ml-auto" 
+        onClick={() => setLight(!light)}
+      >
+        {light ? <LightIcon/> : <DarkIcon/>}
+      </Button>
 		</Navbar>
 	);
 }
