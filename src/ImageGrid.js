@@ -13,7 +13,7 @@ export default function ImageGrid(props) {
 
   if (!loading) {
     return (
-      <Row>
+      <Row style={{justifyContent: 'center'}}>
         {data.map(photo => (
           <ImageCard 
             key={photo.id}
