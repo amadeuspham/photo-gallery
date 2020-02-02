@@ -1,5 +1,5 @@
+# Photo Gallery
 A simple web application resembles a photo gallery, which displays photos fetched from a RESTful API. [Live demo](https://master.d64v55l22lp3w.amplifyapp.com) 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
