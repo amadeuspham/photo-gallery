@@ -1,0 +1,22 @@
+.category {
+  font-weight: bold;
+}
+
+.category-dark {
+  font-weight: bold;
+  color: #f8f9fa;
+}
+
+.details-dark {
+  color: #f8f9fa;
+}
+
+.url-dark {
+  color: orange;
+}
+
+.url-dark:hover {
+  background-color: orange;
+  color: white;
+  text-decoration: none;
+}
