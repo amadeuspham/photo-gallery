@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Row from 'react-bootstrap/Row';
 import Pagination from "react-js-pagination";
 import {
@@ -121,3 +122,8 @@ export default class Gallery extends React.Component {
     );
   }
 }
+
+Gallery.propTypes = {
+  light: PropTypes.bool.isRequired,
+  currentAlbum: PropTypes.string.isRequired,
+};

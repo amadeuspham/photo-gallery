@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import { Container, Col, Image, Spinner } from 'react-bootstrap';
 import LazyLoad from 'react-lazyload';
 import { Link } from "react-router-dom";
@@ -34,6 +35,17 @@ export default function ImageCard(props){
     </Col>
 	);
 }
+
+ImageCard.propTypes = {
+  light: PropTypes.bool.isRequired,
+  photo: PropTypes.shape({
+    "albumId": PropTypes.string.isRequired,
+    "id": PropTypes.string.isRequired,
+    "title": PropTypes.string.isRequired,
+    "url": PropTypes.string.isRequired,
+    "thumbnailUrl": PropTypes.string.isRequired
+  })
+};
 
 function Loading() {
 	return (

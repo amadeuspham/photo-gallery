@@ -1,7 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Navbar, Nav, Dropdown, NavItem, Button } from 'react-bootstrap';
 import { IconContext } from "react-icons";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
+
+GalleryHeader.propTypes = {
+  light: PropTypes.bool.isRequired,
+  currentAlbum: PropTypes.string.isRequired,
+  setLight: PropTypes.func.isRequired,
+  setCurrentAlbum: PropTypes.func.isRequired
+};
 
 function LightIcon() {
   return (

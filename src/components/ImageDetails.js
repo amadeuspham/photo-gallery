@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -76,3 +77,14 @@ export default class ImageDetails extends React.Component{
 		}
 	}
 }
+
+ImageDetails.propTypes = {
+  light: PropTypes.bool.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    "albumId": PropTypes.string.isRequired,
+    "id": PropTypes.string.isRequired,
+    "title": PropTypes.string.isRequired,
+    "url": PropTypes.string.isRequired,
+    "thumbnailUrl": PropTypes.string.isRequired
+  }))
+};
