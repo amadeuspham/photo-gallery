@@ -10,7 +10,7 @@ import {
 import ImageGrid from './ImageGrid.js';
 import ImageDetails from './ImageDetails.js';
 import NotFound from './NotFound.js';
-import './PaginationDark.css';
+import './Pagination.css';
 
 export default class Gallery extends React.Component {
   state = {
@@ -77,9 +77,9 @@ export default class Gallery extends React.Component {
             totalItemsCount={5000}
             pageRangeDisplayed={5}
             onChange={this.handlePageChange}
-            activeClass={light ? "page-item active" : "page-item-dark active"}
-            itemClass={light ? "page-item" : "page-item-dark"}
-            linkClass={light ? "page-link" : "page-link-dark"}
+            activeClass={light ? "page-item-light active" : "page-item-dark active"}
+            itemClass={light ? "page-item-light" : "page-item-dark"}
+            linkClass={light ? "page-link-light" : "page-link-dark"}
           />
         </Row>
       );

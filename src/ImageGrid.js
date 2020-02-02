@@ -25,6 +25,6 @@ export default function ImageGrid(props) {
       </Row>
     );
   } else {
-    return <Loading/>;
+    return <Loading light={light}/>;
   }
 }
