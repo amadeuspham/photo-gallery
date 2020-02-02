@@ -22,10 +22,12 @@ export default class Gallery extends React.Component {
   }
 
   componentDidMount() {
+    // show the first page oof the gallery when app loaded
     this.updateGalleryPage(1);
   }
 
   componentDidUpdate(prevProps) {
+    // if the user choose to see all photos in an album, update the gallery
     const {currentAlbum} = this.props;
     if (currentAlbum !== prevProps.currentAlbum) {
       if (currentAlbum === "All albums") {
@@ -37,6 +39,7 @@ export default class Gallery extends React.Component {
   }
 
   updateAlbumPhotos = (currentAlbum) => {
+    // fetch all photos in an album and update state
     let url = new URL('https://jsonplaceholder.typicode.com/photos');
     url.search = new URLSearchParams({
         albumId: currentAlbum
@@ -58,6 +61,7 @@ export default class Gallery extends React.Component {
   }
 
   updateGalleryPage = (pageNum) => {
+    // fetch all photos, pagination enabled. Each page only shows 18 photo max.
     let url = new URL('https://jsonplaceholder.typicode.com/photos');
     url.search = new URLSearchParams({
         _page: pageNum,
@@ -76,6 +80,8 @@ export default class Gallery extends React.Component {
   }
 
   ImageSwitch = () => {
+    // describes which component will be rendered depending on the URL path
+    // either the whole gallery view, a separate image view or a 404 page
     const {data} = this.state;
     const {light} = this.props;
 
@@ -89,8 +95,10 @@ export default class Gallery extends React.Component {
   }
 
   ImageBrowse = () => {
+    // the gallery view
     const {data, loading, currentPage, error} = this.state;
     const {light, currentAlbum} = this.props;
+
     if (error) {
       return (
         <p style={{minHeight: '100vh'}}>An error occured. Please try again later</p>
@@ -99,7 +107,7 @@ export default class Gallery extends React.Component {
       return (
         <Row style={{justifyContent: 'center', minHeight: '100vh'}}>
           <ImageGrid loading={loading} data={data} light={light}/>
-          {currentAlbum === "All albums" && <Pagination
+          {currentAlbum === "All albums" && <Pagination // only does pagination when all albums are shown
             activePage={currentPage}
             itemsCountPerPage={18}
             totalItemsCount={5000}

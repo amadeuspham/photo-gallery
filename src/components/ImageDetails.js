@@ -21,8 +21,11 @@ export default class ImageDetails extends React.Component{
 	}
 
 	componentDidMount() {
+		// get the photo ID from URL path
 		const {id} = this.props.match.params;
 		const {data} = this.props;
+		// try to find the photo position in the current photos array
+		// (only works when user clicks on the photo from the gallery view)
 		const elementPos = data.findIndex(photo => photo.id === parseInt(id));
 		const fromGallery = data[elementPos];
 
@@ -33,6 +36,8 @@ export default class ImageDetails extends React.Component{
 				backToGallery: true
 			});
 		} else {
+			// if the user access the photo with an URL, fetch the photo
+			// directly from the API
 			fetch("https://jsonplaceholder.typicode.com/photos/" + id)
 	      .then(response => response.json())
 		    .then(data => {
@@ -44,6 +49,7 @@ export default class ImageDetails extends React.Component{
 		}
 	}
 
+	// back button to the gallery view (only rendered when user clicks on the photo from gallery)
 	BackButton = () => {
 		return (
 			<Col className="col-auto mb-4">

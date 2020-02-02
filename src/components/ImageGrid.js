@@ -11,7 +11,7 @@ import Loading from './Loading.js';
 export default function ImageGrid(props) {
   const location = useLocation();
   const {data, loading, light} = props;
-
+  // For each photo, renders a thumbnail card in the gallery
   if (!loading) {
     return (
       <Row style={{justifyContent: 'center'}}>

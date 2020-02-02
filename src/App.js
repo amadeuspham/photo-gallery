@@ -5,7 +5,7 @@ import Gallery from './components/Gallery.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-	const [light, setLight] = useState(true);
+	const [light, setLight] = useState(true); // light/dark mode state
 	const [currentAlbum, setCurrentAlbum] = useState('All albums');
 
   return (

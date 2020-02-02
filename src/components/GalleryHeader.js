@@ -4,13 +4,7 @@ import { Navbar, Nav, Dropdown, NavItem, Button } from 'react-bootstrap';
 import { IconContext } from "react-icons";
 import { IoIosMoon, IoIosSunny } from "react-icons/io";
 
-GalleryHeader.propTypes = {
-  light: PropTypes.bool.isRequired,
-  currentAlbum: PropTypes.string.isRequired,
-  setLight: PropTypes.func.isRequired,
-  setCurrentAlbum: PropTypes.func.isRequired
-};
-
+// Turn on Dark Mode button
 function LightIcon() {
   return (
       <IconContext.Provider value={{ color: "#f8f9fa", size:"2em" }}>
@@ -19,6 +13,7 @@ function LightIcon() {
   );
 }
 
+// Turn on Light Mode button
 function DarkIcon() {
   return (
       <IconContext.Provider value={{ color: "#343a40", size:"2em" }}>
@@ -30,7 +25,7 @@ function DarkIcon() {
 export default function GalleryHeader(props) {
   const {light, currentAlbum, setLight, setCurrentAlbum} = props;
 
-  const albumDropdownItems = [];
+  const albumDropdownItems = []; // containing album title cards for dropdown menu
   albumDropdownItems.push(
     <Dropdown.Item 
       onClick={() => setCurrentAlbum("All albums")}
@@ -41,6 +36,8 @@ export default function GalleryHeader(props) {
   );
 
   albumDropdownItems.push(<Dropdown.Divider />);
+
+  // For each album title (1->100), create a title card in the dropdown menu
   for (let albumId = 1; albumId <= 100; albumId++) {
     albumId = albumId.toString();
     albumDropdownItems.push(
@@ -83,3 +80,10 @@ export default function GalleryHeader(props) {
 		</Navbar>
 	);
 }
+
+GalleryHeader.propTypes = {
+  light: PropTypes.bool.isRequired,
+  currentAlbum: PropTypes.string.isRequired,
+  setLight: PropTypes.func.isRequired,
+  setCurrentAlbum: PropTypes.func.isRequired
+};

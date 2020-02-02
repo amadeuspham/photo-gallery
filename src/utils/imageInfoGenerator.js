@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import '../styles/ImageInfo.css';
 
 export default function imageInfoGenerator(photo, light) {
+	// Create a grid showing photo-specific detailed information
 	return (
 		<Col className={light ? "shadow-lg p-3 bg-white my-auto" : "shadow-lg p-3 bg-secondary my-auto"} rounded>
 			<p className={light ? "category" : "category-dark"}>Image info</p>

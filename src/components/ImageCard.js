@@ -8,6 +8,8 @@ export default function ImageCard(props){
 	const {photo, light} = props;
 	const [hovered, setHovered] = useState(false);
 
+	// Renders a thumbnail for a photo, which will grows larger when mouse hovers on it
+	// Lazy loading is enabled, the photo will load when user is aboout to see it (for performance)
 	return (
     <Col sm={4} md={3} lg={2}>
     	<LazyLoad 
