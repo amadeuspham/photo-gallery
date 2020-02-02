@@ -8,7 +8,7 @@ export default function ImageCard(props){
 	const [hovered, setHovered] = useState(false);
 
 	return (
-    <Col xs={5} sm={4} md={3} lg={2}>
+    <Col sm={4} md={3} lg={2}>
     	<LazyLoad 
     		key={photo.id} 
     		placeholer={<Loading/>}

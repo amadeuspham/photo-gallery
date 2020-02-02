@@ -56,22 +56,22 @@ export default function GalleryHeader(props) {
 		  </Navbar.Brand> 
       <Navbar.Toggle aria-controls="basic-navbar-nav" /> 
       <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="mr-auto ml-3">
+      <Nav className="mr-auto">
         <Dropdown as={NavItem}>
-          <Dropdown.Toggle id="dropdown-custom-1" className={light ? null : "bg-secondary border-0"}>{currentAlbum + ' '}</Dropdown.Toggle>
+          <Dropdown.Toggle id="dropdown-custom-1" className={light ? "m-4" : "bg-secondary border-0 m-4"}>{currentAlbum + ' '}</Dropdown.Toggle>
           <Dropdown.Menu className={light ? "bg-white pre-scrollable border-0" : "bg-secondary pre-scrollable border-0"}>
             {albumDropdownItems}
           </Dropdown.Menu>
         </Dropdown>
       </Nav>
-        <Button 
-          variant={light ? "dark" : "light"}
-          //className="ml-auto" 
-          onClick={() => setLight(!light)}
-        >
-          {light ? <LightIcon/> : <DarkIcon/>}
-        </Button>
       </Navbar.Collapse>
+      <Button 
+        variant={light ? "dark" : "light"}
+        //className="ml-auto" 
+        onClick={() => setLight(!light)}
+      >
+        {light ? <LightIcon/> : <DarkIcon/>}
+      </Button>
 		</Navbar>
 	);
 }
