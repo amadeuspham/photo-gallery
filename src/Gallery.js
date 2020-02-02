@@ -21,14 +21,42 @@ export default class Gallery extends React.Component {
   }
 
   componentDidMount() {
-    this.updateData(1);
+    this.updateGalleryPage(1);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {currentAlbum} = this.props;
+    if (currentAlbum !== prevProps.currentAlbum) {
+      if (currentAlbum === "All albums") {
+        this.setState({loading: true}, this.updateGalleryPage(1));
+      } else {
+        this.setState({loading: true}, this.updateAlbumPhotos(currentAlbum));
+      }
+    }
+  }
+
+  updateAlbumPhotos = (currentAlbum) => {
+    let url = new URL('https://jsonplaceholder.typicode.com/photos');
+    url.search = new URLSearchParams({
+        albumId: currentAlbum
+    });
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => 
+        this.setState({
+          data: data,
+          loading: false,
+        })
+      )
+      .catch(error => this.setState({ error, loading: false }));
   }
 
   handlePageChange = (selectedPage) => {
-    this.setState({currentPage: selectedPage, loading: true}, this.updateData(selectedPage));
+    this.setState({currentPage: selectedPage, loading: true}, this.updateGalleryPage(selectedPage));
   }
 
-  updateData = (pageNum) => {
+  updateGalleryPage = (pageNum) => {
     let url = new URL('https://jsonplaceholder.typicode.com/photos');
     url.search = new URLSearchParams({
         _page: pageNum,
@@ -61,8 +89,7 @@ export default class Gallery extends React.Component {
 
   ImageBrowse = () => {
     const {data, loading, currentPage, error} = this.state;
-    const {light} = this.props;
-
+    const {light, currentAlbum} = this.props;
     if (error) {
       return (
         <p style={{minHeight: '100vh'}}>An error occured. Please try again later</p>
@@ -71,7 +98,7 @@ export default class Gallery extends React.Component {
       return (
         <Row style={{justifyContent: 'center', minHeight: '100vh'}}>
           <ImageGrid loading={loading} data={data} light={light}/>
-          <Pagination
+          {currentAlbum === "All albums" && <Pagination
             activePage={currentPage}
             itemsCountPerPage={18}
             totalItemsCount={5000}
@@ -80,7 +107,7 @@ export default class Gallery extends React.Component {
             activeClass={light ? "page-item-light active" : "page-item-dark active"}
             itemClass={light ? "page-item-light" : "page-item-dark"}
             linkClass={light ? "page-link-light" : "page-link-dark"}
-          />
+          />}
         </Row>
       );
     }
