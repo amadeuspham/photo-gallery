@@ -1,5 +1,8 @@
 # Photo Gallery
-A simple web application resembles a photo gallery, which displays photos fetched from a RESTful API. [Live demo](https://master.d64v55l22lp3w.amplifyapp.com) 
+A simple web application resembles a photo gallery, which displays photos fetched from a RESTful API. 
+
+## Live demo
+[Click here](https://master.d64v55l22lp3w.amplifyapp.com) to view the live app.
 
 ## Available Scripts
 
