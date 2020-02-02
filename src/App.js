@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import GalleryHeader from './GalleryHeader.js';
-import Gallery from './Gallery.js';
+import GalleryHeader from './components/GalleryHeader.js';
+import Gallery from './components/Gallery.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
