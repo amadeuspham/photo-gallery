@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Image from 'react-bootstrap/Image';
+import {Container, Row, Col, Button, Image} from 'react-bootstrap';
 import { IconContext } from "react-icons";
 import { IoIosArrowBack, IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import {

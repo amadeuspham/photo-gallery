@@ -87,8 +87,8 @@ export default class Gallery extends React.Component {
 
     return (
       <Switch>
-        <Route path="/:id" render={(props) => <ImageDetails data={data} light={light} {...props} /> }/>
-        <Route path="/" children={<this.ImageBrowse/>} />
+        <Route exact path="/:id" render={(props) => <ImageDetails data={data} light={light} {...props} /> }/>
+        <Route exact path="/" children={<this.ImageBrowse/>} />
         <Route path="*" children={<NotFound/>}/>
       </Switch>
     );
