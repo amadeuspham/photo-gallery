@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import { IconContext } from "react-icons";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import {
   Link
 } from "react-router-dom";
@@ -23,10 +24,15 @@ export default class ImageDetails extends React.Component{
 	componentDidMount() {
 		// get the photo ID from URL path
 		const {id} = this.props.match.params;
+		// retrieve the photo object
+		this.loadPic(parseInt(id));
+	}
+
+	loadPic = (id) => {
 		const {data} = this.props;
 		// try to find the photo position in the current photos array
 		// (only works when user clicks on the photo from the gallery view)
-		const elementPos = data.findIndex(photo => photo.id === parseInt(id));
+		const elementPos = data.findIndex(photo => photo.id === id);
 		const fromGallery = data[elementPos];
 
 		if (fromGallery) {
@@ -62,6 +68,21 @@ export default class ImageDetails extends React.Component{
 		);
 	}
 
+	DirPhotoButton = (props) => {
+		const {light} = this.props;
+		const {id, dir} = props;
+
+		return (
+			<Col className="col-auto mb-4">
+				<Button style={{backgroundColor:"transparent", borderStyle: "none"}} onClick={() => this.loadPic(id)}>
+					<IconContext.Provider value={{ color: "grey", size:"3em" }}>
+					    {dir === "prev" ? <IoIosArrowRoundBack/> : <IoIosArrowRoundForward/>}
+					</IconContext.Provider>
+				</Button>
+			</Col>
+		);
+	}
+
 	render() {
 		const {loading, photo, backToGallery} = this.state;
 		const {light} = this.props;
@@ -75,6 +96,10 @@ export default class ImageDetails extends React.Component{
 						{backToGallery && <this.BackButton/>}
 						<Col sm={7}>
 			    		<Image src={photo.url} className="mb-4" fluid/>
+			    		<Row>
+			    			{photo.id !== 1 && <Col><this.DirPhotoButton id={photo.id-1} dir="prev"/></Col>}
+			    			{photo.id !== 5000 && <Col><this.DirPhotoButton id={photo.id+1} dir="next"/></Col>}
+			    		</Row>
 			    	</Col>
 			    	{imageInfoGenerator(photo, light)}
 			    </Row>
