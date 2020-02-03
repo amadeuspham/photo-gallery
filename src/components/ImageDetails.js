@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Container, Row, Col, Button, Image} from 'react-bootstrap';
+import {Container, Row, Col, Image} from 'react-bootstrap';
 import { IconContext } from "react-icons";
-import { IoIosArrowBack, IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 import {
   Link
 } from "react-router-dom";
@@ -64,21 +64,6 @@ export default class ImageDetails extends React.Component{
 		);
 	}
 
-	DirPhotoButton = (props) => {
-		const {light} = this.props;
-		const {id, dir} = props;
-
-		return (
-			<Col className="col-auto mb-4">
-				<Button style={{backgroundColor:"transparent", borderStyle: "none"}} onClick={() => this.loadPic(id)}>
-					<IconContext.Provider value={{ color: "grey", size:"3em" }}>
-					    {dir === "prev" ? <IoIosArrowRoundBack/> : <IoIosArrowRoundForward/>}
-					</IconContext.Provider>
-				</Button>
-			</Col>
-		);
-	}
-
 	render() {
 		const {loading, photo, backToGallery} = this.state;
 		const {light} = this.props;
@@ -92,10 +77,6 @@ export default class ImageDetails extends React.Component{
 						{backToGallery && <this.BackButton/>}
 						<Col sm={7}>
 			    		<Image src={photo.url} className="mb-4" fluid/>
-			    		<Row>
-			    			{photo.id !== 1 && <Col><this.DirPhotoButton id={photo.id-1} dir="prev"/></Col>}
-			    			{photo.id !== 5000 && <Col><this.DirPhotoButton id={photo.id+1} dir="next"/></Col>}
-			    		</Row>
 			    	</Col>
 			    	{imageInfoGenerator(photo, light)}
 			    </Row>
