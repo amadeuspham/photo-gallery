@@ -28,6 +28,7 @@ export default function GalleryHeader(props) {
   const albumDropdownItems = []; // containing album title cards for dropdown menu
   albumDropdownItems.push(
     <Dropdown.Item 
+      key="all-albums"
       onClick={() => setCurrentAlbum("All albums")}
       className={light ? "text-dark" : "text-light"}
     >
@@ -35,13 +36,14 @@ export default function GalleryHeader(props) {
     </Dropdown.Item>
   );
 
-  albumDropdownItems.push(<Dropdown.Divider />);
+  albumDropdownItems.push(<Dropdown.Divider key="divider"/>);
 
   // For each album title (1->100), create a title card in the dropdown menu
   for (let albumId = 1; albumId <= 100; albumId++) {
     albumId = albumId.toString();
     albumDropdownItems.push(
       <Dropdown.Item 
+        key={albumId}
         onClick={() => setCurrentAlbum(albumId)}
         className={light ? "text-dark" : "text-light"}
       >

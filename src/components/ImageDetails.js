@@ -87,8 +87,8 @@ export default class ImageDetails extends React.Component{
 ImageDetails.propTypes = {
   light: PropTypes.bool.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({
-    "albumId": PropTypes.string.isRequired,
-    "id": PropTypes.string.isRequired,
+    "albumId": PropTypes.number.isRequired,
+    "id": PropTypes.number.isRequired,
     "title": PropTypes.string.isRequired,
     "url": PropTypes.string.isRequired,
     "thumbnailUrl": PropTypes.string.isRequired
