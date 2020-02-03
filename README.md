@@ -4,7 +4,14 @@ A simple web application resembles a photo gallery, which displays photos fetche
 ## Live demo
 [Click here](https://master.d64v55l22lp3w.amplifyapp.com) to view the live app.
 
-## Available Scripts
+## Installation
+
+First, clone the project to your local repository.
+
+```bash
+git clone https://github.com/amadeuspham/photo-gallery.git
+cd photo-gallery
+```
 
 In the project directory, you can run:
 
