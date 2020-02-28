@@ -68,6 +68,8 @@ export default class ImageDetails extends React.Component{
 		const {loading, photo, backToGallery} = this.state;
 		const {light} = this.props;
 
+		console.log(this.props.location.pathname);
+
 		if (loading) {
 			return <Loading/>;
 		} else {

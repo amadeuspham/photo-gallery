@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Row from 'react-bootstrap/Row';
-import Pagination from "react-js-pagination";
 import {
   HashRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 
-import ImageGrid from './ImageGrid.js';
+import ImageBrowse from './ImageBrowse.js';
 import ImageDetails from './ImageDetails.js';
 import NotFound from './NotFound.js';
 import '../styles/Pagination.css';
@@ -82,44 +80,28 @@ export default class Gallery extends React.Component {
   ImageSwitch = () => {
     // describes which component will be rendered depending on the URL path
     // either the whole gallery view, a separate image view or a 404 page
-    const {data} = this.state;
-    const {light} = this.props;
+    const {data, loading, currentPage, error} = this.state;
+    const {currentAlbum, light} = this.props;
 
     return (
       <Switch>
         <Route exact path="/:id" render={(props) => <ImageDetails data={data} light={light} {...props} /> }/>
+        <Route exact path="/" render={(props) => 
+        	<ImageBrowse 
+        		data={data} 
+        		loading={loading} 
+        		currentPage={currentPage} 
+        		handlePageChange={this.handlePageChange}
+        		error={error} 
+        		light={light} 
+        		currentAlbum={currentAlbum} 
+        		{...props} 
+        	/>} 
+        />
         <Route exact path="/" children={<this.ImageBrowse/>} />
         <Route path="*" children={<NotFound/>}/>
       </Switch>
     );
-  }
-
-  ImageBrowse = () => {
-    // the gallery view
-    const {data, loading, currentPage, error} = this.state;
-    const {light, currentAlbum} = this.props;
-
-    if (error) {
-      return (
-        <p style={{minHeight: '100vh'}}>An error occured. Please try again later</p>
-      );
-    } else {
-      return (
-        <Row style={{justifyContent: 'center', minHeight: '100vh'}}>
-          <ImageGrid loading={loading} data={data} light={light}/>
-          {currentAlbum === "All albums" && <Pagination // only does pagination when all albums are shown
-            activePage={currentPage}
-            itemsCountPerPage={18}
-            totalItemsCount={5000}
-            pageRangeDisplayed={5}
-            onChange={this.handlePageChange}
-            activeClass={light ? "page-item-light active" : "page-item-dark active"}
-            itemClass={light ? "page-item-light" : "page-item-dark"}
-            linkClass={light ? "page-link-light" : "page-link-dark"}
-          />}
-        </Row>
-      );
-    }
   }
 
   render(){
