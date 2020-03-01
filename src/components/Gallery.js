@@ -1,115 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  HashRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
 
 import ImageBrowse from './ImageBrowse.js';
-import ImageDetails from './ImageDetails.js';
-import NotFound from './NotFound.js';
+import AlbumBrowse from './AlbumBrowse.js';
 import '../styles/Pagination.css';
 
 export default class Gallery extends React.Component {
-  state = {
-    data: [],
-    currentPage: 1,
-    loading: true,
-    error: false,
-  }
+	componentDidMount() {
+		// set viewmode when directly visits specific album
+		const {setViewingMode, showingDataType, location, match} = this.props;
+		if (location.pathname.includes("/albums/") && match.params.id) {
+			setViewingMode("albumPhotos");
+		}
+	}
 
-  componentDidMount() {
-    // show the first page oof the gallery when app loaded
-    this.updateGalleryPage(1);
-  }
+	componentDidUpdate(prevProps) {
+		const {setViewingMode, showingDataType, location} = this.props;
 
-  componentDidUpdate(prevProps) {
-    // if the user choose to see all photos in an album, update the gallery
-    const {currentAlbum} = this.props;
-    if (currentAlbum !== prevProps.currentAlbum) {
-      if (currentAlbum === "All albums") {
-        this.setState({loading: true}, this.updateGalleryPage(1));
-      } else {
-        this.setState({loading: true}, this.updateAlbumPhotos(currentAlbum));
-      }
-    }
-  }
-
-  updateAlbumPhotos = (currentAlbum) => {
-    // fetch all photos in an album and update state
-    let url = new URL('https://jsonplaceholder.typicode.com/photos');
-    url.search = new URLSearchParams({
-        albumId: currentAlbum
-    });
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => 
-        this.setState({
-          data: data,
-          loading: false,
-        })
-      )
-      .catch(error => this.setState({ error, loading: false }));
-  }
-
-  handlePageChange = (selectedPage) => {
-    this.setState({currentPage: selectedPage, loading: true}, this.updateGalleryPage(selectedPage));
-  }
-
-  updateGalleryPage = (pageNum) => {
-    // fetch all photos, pagination enabled. Each page only shows 18 photo max.
-    let url = new URL('https://jsonplaceholder.typicode.com/photos');
-    url.search = new URLSearchParams({
-        _page: pageNum,
-        _limit: 18
-    });
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => 
-        this.setState({
-          data: data,
-          loading: false,
-        })
-      )
-      .catch(error => this.setState({ error, loading: false }));
-  }
-
-  ImageSwitch = () => {
-    // describes which component will be rendered depending on the URL path
-    // either the whole gallery view, a separate image view or a 404 page
-    const {data, loading, currentPage, error} = this.state;
-    const {currentAlbum, light} = this.props;
-
-    return (
-      <Switch>
-        <Route exact path="/:id" render={(props) => <ImageDetails data={data} light={light} {...props} /> }/>
-        <Route exact path="/" render={(props) => 
-        	<ImageBrowse 
-        		data={data} 
-        		loading={loading} 
-        		currentPage={currentPage} 
-        		handlePageChange={this.handlePageChange}
-        		error={error} 
-        		light={light} 
-        		currentAlbum={currentAlbum} 
-        		{...props} 
-        	/>} 
-        />
-        <Route exact path="/" children={<this.ImageBrowse/>} />
-        <Route path="*" children={<NotFound/>}/>
-      </Switch>
-    );
-  }
+		if (showingDataType !== prevProps.showingDataType) {
+			setViewingMode(showingDataType);
+		} else if (location.pathname === '/albums') {
+			setViewingMode("albums");
+		}
+	}
 
   render(){
-    return(
-      <Router>
-        <this.ImageSwitch/>
-      </Router>
-    );
+    const {
+    	showingDataType, 
+    	photosData, 
+    	albumsData,
+    	albumId,
+    	currentAlbum,
+    	currentAlbumName, 
+    	setCurrentAlbum,
+    	setCurrentAlbumName,
+    	setPhotosData, 
+    	setAlbumsData, 
+    	light,
+    	location,
+    	match,
+    } = this.props;
+
+    if (showingDataType === "albums") {
+	    return(
+	    	<AlbumBrowse 
+	    		showingDataType={showingDataType}
+	    		albumsData={albumsData}
+	    		setAlbumsData={setAlbumsData}
+	    		setCurrentAlbum={setCurrentAlbum}
+	    		setCurrentAlbumName={setCurrentAlbumName}
+	    		light={light}
+	    	/>
+	    );
+    } else {
+	    return(
+	    	<ImageBrowse 
+	    		albumId={albumId}
+	    		showingDataType={showingDataType}
+	    		photosData={photosData}
+	    		setPhotosData={setPhotosData}
+	    		light={light} 
+	    		currentAlbum={currentAlbum} 
+	    		currentAlbumName={currentAlbumName}
+	    		setCurrentAlbum={setCurrentAlbum}
+	    		setCurrentAlbumName={setCurrentAlbumName}
+	    		location={location}
+	    		match={match}
+	    	/>
+	    );
+    }
   }
 }
 

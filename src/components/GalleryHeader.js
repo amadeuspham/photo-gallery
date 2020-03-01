@@ -1,11 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Nav, Dropdown, NavItem, Button } from 'react-bootstrap';
+import { Navbar, Row, Col, Button } from 'react-bootstrap';
 import { IconContext } from "react-icons";
-import { IoIosMoon, IoIosSunny } from "react-icons/io";
+import { IoIosMoon, IoIosSunny, IoIosAlbums, IoIosPeople } from "react-icons/io";
+import { Link } from "react-router-dom";
+
+function adaptiveButtonBackground(light, viewingMode) {
+  if (light) {
+    if (viewingMode === "albums" || viewingMode === "albumPhotos") {
+      return "primary";
+    } else {
+      return "dark";
+    }
+  } else {
+    if (viewingMode === "albums" || viewingMode === "albumPhotos") {
+      return "warning";
+    } else {
+      return "light";
+    }
+  }
+}
+
+function AlbumIcon(props) {
+  const {light, viewingMode} = props;
+
+  return (
+    <IconContext.Provider 
+      value={light ? { color: "#f8f9fa", size:"2em" } : { color: "#343a40", size:"2em" }}
+    >
+      <IoIosAlbums />
+    </IconContext.Provider>
+  );
+}
+
+function UserIcon(props) {
+  const {light} = props;
+
+  return (
+    <IconContext.Provider 
+      value={light ? { color: "#f8f9fa", size:"2em" } : { color: "#343a40", size:"2em" }}
+    >
+      <IoIosPeople />
+    </IconContext.Provider>
+  );
+}
 
 // Turn on Dark Mode button
-function LightIcon() {
+function LightModeIcon() {
   return (
       <IconContext.Provider value={{ color: "#f8f9fa", size:"2em" }}>
         <IoIosMoon />
@@ -14,7 +55,7 @@ function LightIcon() {
 }
 
 // Turn on Light Mode button
-function DarkIcon() {
+function DarkModeIcon() {
   return (
       <IconContext.Provider value={{ color: "#343a40", size:"2em" }}>
         <IoIosSunny />
@@ -22,34 +63,30 @@ function DarkIcon() {
   );
 }
 
+// async function getAlbumName(albumId) {
+//   let url = new URL('https://jsonplaceholder.typicode.com/photos');
+//   url.search = new URLSearchParams({
+//       albumId: albumId,
+//       _page: 1,
+//       _limit: 1,
+//   });
+
+//   const response = await fetch(url);
+//   const data = await response.json()
+//   console.log('album data:')
+//   console.log(data);
+//   return;
+// }
+
 export default function GalleryHeader(props) {
-  const {light, currentAlbum, setLight, setCurrentAlbum} = props;
+  const {light, setLight, currentAlbum, currentAlbumName, setCurrentAlbum, viewingMode} = props;
+  const buttonVariant = adaptiveButtonBackground(light, viewingMode);
 
-  const albumDropdownItems = []; // containing album title cards for dropdown menu
-  albumDropdownItems.push(
-    <Dropdown.Item 
-      key="all-albums"
-      onClick={() => setCurrentAlbum("All albums")}
-      className={light ? "text-dark" : "text-light"}
-    >
-      All albums
-    </Dropdown.Item>
-  );
-
-  albumDropdownItems.push(<Dropdown.Divider key="divider"/>);
-
-  // For each album title (1->100), create a title card in the dropdown menu
-  for (let albumId = 1; albumId <= 100; albumId++) {
-    albumId = albumId.toString();
-    albumDropdownItems.push(
-      <Dropdown.Item 
-        key={albumId}
-        onClick={() => setCurrentAlbum(albumId)}
-        className={light ? "text-dark" : "text-light"}
-      >
-        {albumId}
-      </Dropdown.Item>
-    );
+  let albumTitle = "Albums";
+  if (viewingMode === "albums") {
+    albumTitle = "Showing all albums";
+  } else if (viewingMode === 'albumPhotos') {
+    albumTitle = currentAlbumName;
   }
 
 	return (
@@ -63,22 +100,39 @@ export default function GalleryHeader(props) {
 		  </Navbar.Brand> 
       <Navbar.Toggle aria-controls="basic-navbar-nav" /> 
       <Navbar.Collapse id="basic-navbar-nav" className="m-3">
-      <Nav className="mr-auto">
-        <Dropdown as={NavItem}>
-          <Dropdown.Toggle id="dropdown-custom-1" className={light ? null : "bg-secondary border-0"}>{currentAlbum + ' '}</Dropdown.Toggle>
-          <Dropdown.Menu className={light ? "bg-white pre-scrollable border-0" : "bg-secondary pre-scrollable border-0"}>
-            {albumDropdownItems}
-          </Dropdown.Menu>
-        </Dropdown>
-      </Nav>
+        <Link to={'/albums'}>
+          <Button 
+            className="mr-4"
+            variant={buttonVariant}
+            onClick={() => {
+              setCurrentAlbum("All albums");
+            }}
+          >
+            <Row className="align-items-center">
+              <Col>
+                <AlbumIcon light={light} viewingMode={viewingMode}/>
+              </Col>
+              <Col md="auto">
+                <p className="my-auto">
+                  {albumTitle}
+                </p>
+              </Col>
+            </Row>
+          </Button>
+          </Link>
+        <Button 
+          className="mr-4"
+          variant={light ? "dark" : "light"}
+        >
+          <UserIcon light={light}/>
+        </Button>
+        <Button 
+          variant={light ? "dark" : "light"}
+          onClick={() => setLight(!light)}
+        >
+          {light ? <LightModeIcon/> : <DarkModeIcon/>}
+        </Button>
       </Navbar.Collapse>
-      <Button 
-        variant={light ? "dark" : "light"}
-        //className="mt-3"
-        onClick={() => setLight(!light)}
-      >
-        {light ? <LightIcon/> : <DarkIcon/>}
-      </Button>
 		</Navbar>
 	);
 }

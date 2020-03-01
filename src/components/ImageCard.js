@@ -20,7 +20,7 @@ export default function ImageCard(props){
        	offset={100}
        	once={true}
     	>
-      	<Link to={'/' + photo.id} className="d-block mb-4 h-100">
+      	<Link to={'/photos/' + photo.id} className="d-block mb-4 h-100">
 	        <Image 
 	        	src={photo.thumbnailUrl} 
 		        onMouseOut={() => setHovered(false)}

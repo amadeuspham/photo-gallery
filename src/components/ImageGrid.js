@@ -1,32 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Row from 'react-bootstrap/Row';
-import {
-  useLocation,
-} from "react-router-dom";
 
 import ImageCard from './ImageCard.js';
-import Loading from './Loading.js';
+import AlbumCard from './AlbumCard.js';
 
 export default function ImageGrid(props) {
-  const location = useLocation();
-  const {data, loading, light} = props;
+  const {data, loading, light, showingDataType, setCurrentAlbum, setCurrentAlbumName} = props;
   // For each photo, renders a thumbnail card in the gallery
-  if (!loading) {
+  if (showingDataType === "albums") {
     return (
       <Row style={{justifyContent: 'center'}}>
-        {data.map(photo => (
-          <ImageCard 
-            key={photo.id}
-            photo={photo} 
-            location={location}
+        {data.map(album => (
+          <AlbumCard 
+            key={album.id}
+            album={album} 
+            setCurrentAlbum={setCurrentAlbum}
+            setCurrentAlbumName={setCurrentAlbumName}
             light={light}
           />
         ))}
       </Row>
     );
   } else {
-    return <Loading light={light}/>;
+    return (
+      <Row style={{justifyContent: 'center'}}>
+        {data.map(photo => (
+          <ImageCard 
+            key={photo.id}
+            photo={photo} 
+            light={light}
+          />
+        ))}
+      </Row>
+    );
   }
 }
 
