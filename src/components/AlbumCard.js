@@ -74,6 +74,7 @@ export default function AlbumCard(props){
 									  height: '3.6em', /* exactly three lines */
 									  lineHeight: '1.2em',
 									  textOverflow: 'ellipsis',
+									  color: 'black'
 						    	}}
 						    	rounded
 						    >

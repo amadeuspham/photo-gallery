@@ -19,7 +19,7 @@ export default class ImageBrowse extends React.Component {
 		const {currentPage} = this.state;
 
 		if (currentAlbum === "All albums") {
-			// visit album directly
+			// visit album directly, need to update currentAlbum with id from url
 			if (albumId && albumId !== currentAlbum) {
 				// set album id to fetch images
 				setCurrentAlbum(albumId);
@@ -34,24 +34,22 @@ export default class ImageBrowse extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		const {currentAlbum} = this.props;
+		const {currentAlbum, setCurrentAlbum} = this.props;
 		const {currentPage} = this.state;
+		// after 1st rerender (take albumId from url), start fetching photos due to new id
 		if (currentAlbum !== prevProps.currentAlbum && currentAlbum !== "All albums") {
 			this.updateAlbumPhotos(currentAlbum, currentPage);
 		}
+		// visit (rerender) another album
 		if (prevProps.location.pathname !== this.props.location.pathname) {
 			const {id} = this.props.match.params;
-			this.updateAlbumPhotos(id, currentPage);
 			this.getAlbumName(id);
+			setCurrentAlbum(id);
+			this.updateAlbumPhotos(id, currentPage);
 		}
-		// if (prevProps.currentAlbumName !== currentAlbumName){
-			
-		// 	this.getAlbumName(currentAlbum);
-		// }
 	}
 
   getAlbumName = (currentAlbum) => {
-  	console.log('getting name ' + currentAlbum)
   	const {setCurrentAlbumName} = this.props;
     // fetch all photos in an album and update state
     let url = new URL('https://jsonplaceholder.typicode.com/albums/' + currentAlbum);

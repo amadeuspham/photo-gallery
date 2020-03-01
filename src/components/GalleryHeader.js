@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Row, Col, Button } from 'react-bootstrap';
+import { Navbar, Button, ButtonGroup } from 'react-bootstrap';
 import { IconContext } from "react-icons";
 import { IoIosMoon, IoIosSunny, IoIosAlbums, IoIosPeople } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -63,24 +63,14 @@ function DarkModeIcon() {
   );
 }
 
-// async function getAlbumName(albumId) {
-//   let url = new URL('https://jsonplaceholder.typicode.com/photos');
-//   url.search = new URLSearchParams({
-//       albumId: albumId,
-//       _page: 1,
-//       _limit: 1,
-//   });
-
-//   const response = await fetch(url);
-//   const data = await response.json()
-//   console.log('album data:')
-//   console.log(data);
-//   return;
-// }
-
 export default function GalleryHeader(props) {
   const {light, setLight, currentAlbum, currentAlbumName, setCurrentAlbum, viewingMode} = props;
   const buttonVariant = adaptiveButtonBackground(light, viewingMode);
+
+  let albumNameButtonLink = '/albums/';
+  if (currentAlbum !== "All albums") {
+    albumNameButtonLink += currentAlbum;
+  }
 
   let albumTitle = "Albums";
   if (viewingMode === "albums") {
@@ -100,39 +90,40 @@ export default function GalleryHeader(props) {
 		  </Navbar.Brand> 
       <Navbar.Toggle aria-controls="basic-navbar-nav" /> 
       <Navbar.Collapse id="basic-navbar-nav" className="m-3">
-        <Link to={'/albums'}>
+        <ButtonGroup className="mr-4">
           <Button 
-            className="mr-4"
             variant={buttonVariant}
             onClick={() => {
               setCurrentAlbum("All albums");
             }}
           >
-            <Row className="align-items-center">
-              <Col>
-                <AlbumIcon light={light} viewingMode={viewingMode}/>
-              </Col>
-              <Col md="auto">
-                <p className="my-auto">
-                  {albumTitle}
-                </p>
-              </Col>
-            </Row>
+            <Link to={'/albums'}>
+              <AlbumIcon light={light} viewingMode={viewingMode}/>
+            </Link>
           </Button>
-          </Link>
+          {albumTitle !== "Albums" && 
+            <Button 
+              variant={buttonVariant}
+            >
+              <Link to={albumNameButtonLink} className={light ? "text-light" : "text-dark"}>
+                {albumTitle}
+              </Link>
+            </Button>
+          }
+        </ButtonGroup>
         <Button 
           className="mr-4"
           variant={light ? "dark" : "light"}
         >
           <UserIcon light={light}/>
         </Button>
-        <Button 
-          variant={light ? "dark" : "light"}
-          onClick={() => setLight(!light)}
-        >
-          {light ? <LightModeIcon/> : <DarkModeIcon/>}
-        </Button>
       </Navbar.Collapse>
+      <Button 
+        variant={light ? "dark" : "light"}
+        onClick={() => setLight(!light)}
+      >
+        {light ? <LightModeIcon/> : <DarkModeIcon/>}
+      </Button>
 		</Navbar>
 	);
 }
